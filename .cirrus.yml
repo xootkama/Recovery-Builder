@@ -1,6 +1,6 @@
 env:
     MANIFEST: https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0
-    DT_LINK: https://gitlab.com/OrangeFox/device/m20lte.git -b fox_9.0
+    DT_LINK: https://github.com/OrangeFoxRecovery/device_samsung_m20lte.git -b fox_9.0
     DEVICE: m20lte
     OEM: samsung
     DT_PATH: device/$OEM/$DEVICE
