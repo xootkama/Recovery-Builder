@@ -1,15 +1,15 @@
 env:
-    MANIFEST: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0-deprecated
-    DT_LINK: https://github.com/Redmi-MT6765/recovery_dandelion.git -b fox_10.0
-    DEVICE: dandelion
-    OEM: xiaomi
+    MANIFEST: https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0
+    DT_LINK: https://gitlab.com/OrangeFox/device/m20lte.git -b fox_9.0
+    DEVICE: m20lte
+    OEM: samsung
     DT_PATH: device/$OEM/$DEVICE
     TARGET: recoveryimage
     EXTRA_CMD: git clone https://github.com/OrangeFoxRecovery/Avatar.git misc
-    OUTPUT: OrangeFox*.zip 
+    OUTPUT: OrangeFox*.zip
 
 task:
-  name: "Setting Up, Syncing, Building and Uploading..."
+  name: "Recovery Build"
   timeout_in: 240m  
   container:
       image: ubuntu:20.04
@@ -56,24 +56,8 @@ task:
       - echo "Syncing Complete!"
       - echo "============================"
   
-  fox-10-setup_script:
-      - cd ~/work
-      - cd build
-      - wget https://gitlab.com/OrangeFox/sync/-/raw/master/patches/patch-manifest-fox_10.0.diff
-      - patch -p1 < patch-manifest-fox_10.0.diff
-      - rm -rf patch-manifest-fox_10.0.diff
-      - cd -
-      - rm -rf bootable/recovery vendor/recovery
-      - git clone https://gitlab.com/OrangeFox/bootable/Recovery.git -b fox_10.0 bootable/recovery
-      - git clone https://gitlab.com/OrangeFox/vendor/recovery.git -b fox_10.0 vendor/recovery
-  
   Clone-OrangeFox-Theme_script:
       - git clone https://gitlab.com/OrangeFox/misc/Theme.git ~/work/bootable/recovery/gui/theme
-  
-  Clone-QCOM-Stuff_script:
-      - cd ~/work
-      - git clone https://github.com/TeamWin/android_device_qcom_twrp-common.git -b android-10 device/qcom/twrp-common
-      - git clone https://github.com/TeamWin/android_device_qcom_common.git -b android-10 device/qcom/common
   
   Build_script:
       - echo "============================"
