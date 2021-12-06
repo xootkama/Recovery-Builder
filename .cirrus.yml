@@ -1,7 +1,7 @@
 env:
-    MANIFEST: https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0
-    DT_LINK: https://github.com/OrangeFoxRecovery/device_samsung_m20lte.git -b fox_9.0
-    DEVICE: m20lte
+    MANIFEST: https://github.com/OrangeFoxRecovery/fox-6.0_manifest.git -b fox_6.0
+    DT_LINK: https://github.com/OrangeFoxRecovery/device_samsung_fortuna3g.git
+    DEVICE: fortuna3g
     OEM: samsung
     DT_PATH: device/$OEM/$DEVICE
     TARGET: recoveryimage
@@ -56,9 +56,6 @@ task:
       - echo "Syncing Complete!"
       - echo "============================"
   
-  Clone-OrangeFox-Theme_script:
-      - git clone https://gitlab.com/OrangeFox/misc/Theme.git ~/work/bootable/recovery/gui/theme
-  
   Build_script:
       - echo "============================"
       - echo "Starting the Build..."
@@ -70,6 +67,7 @@ task:
       - $EXTRA_CMD
       - export USE_CCACHE=1
       - export CCACHE_EXEC=/usr/bin/ccache
+      - export CCACHE_DIR="~/.ccache"
       - ccache -M 50G
       - . build/envsetup.sh
       - . $DT_PATH/vendorsetup.sh
