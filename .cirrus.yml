@@ -1,7 +1,7 @@
 env:
     MANIFEST: https://github.com/OrangeFoxRecovery/fox-6.0_manifest.git -b fox_6.0
-    DT_LINK: https://github.com/OrangeFoxRecovery/device_samsung_fortuna3g.git
-    DEVICE: fortuna3g
+    DT_LINK: https://github.com/OrangeFoxRecovery/device_samsung_kanas.git
+    DEVICE: kanas
     OEM: samsung
     DT_PATH: device/$OEM/$DEVICE
     TARGET: recoveryimage
