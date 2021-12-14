@@ -1,8 +1,8 @@
 env:
     MANIFEST: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git -b twrp-10.0-deprecated
-    DT_LINK: https://gitlab.com/OrangeFoxRecovery/device/dandelion.git -b fox_10.0
-    DEVICE: dandelion
-    OEM: xiaomi
+    DT_LINK: https://github.com/OrangeFoxRecovery/device_samsung_m20lte.git -b fox_10.0-dynamic
+    DEVICE: m20lte
+    OEM: samsung
     DT_PATH: device/$OEM/$DEVICE
     TARGET: recoveryimage
     EXTRA_CMD: git clone https://github.com/OrangeFoxRecovery/Avatar.git misc
@@ -89,7 +89,7 @@ task:
       - ccache -M 50G
       - . build/envsetup.sh
       - . $DT_PATH/vendorsetup.sh
-      - lunch omni_$DEVICE-eng
+      - lunch omni_${DEVICE}-eng
       - mka -j16 $TARGET
      
   Upload_script:
