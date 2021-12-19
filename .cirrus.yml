@@ -1,97 +1,34 @@
 env:
-    MANIFEST: https://gitlab.com/OrangeFox/Manifest.git -b fox_9.0
-    DT_LINK: https://github.com/OrangeFoxRecovery/device_samsung_m20lte.git -b fox_9.0
-    DEVICE: m20lte
-    OEM: samsung
+    FOX_SYNC: https://gitlab.com/OrangeFox/sync.git
+    FOX_BRANCH: fox_9.0
+    SYNC_BRANCH: 9.0
+    SYNC_PATH: $HOME/work # Full absolute path. Use "$HOME" instead of "~".
+    DT_LINK: https://github.com/OrangeFoxRecovery/device_lenovo_A6020.git -b fox_9.0
+    DEVICE: A6020
+    OEM: lenovo
     DT_PATH: device/$OEM/$DEVICE
     TARGET: recoveryimage
+    USE_CCACHE: 1
+    CCACHE_SIZE: 60G
+    CCACHE_DIR: ~/work/.ccache
     EXTRA_CMD: git clone https://github.com/OrangeFoxRecovery/Avatar.git misc
-    OUTPUT: OrangeFox*.zip
+    J_VAL: 16
+    OUTPUT: OrangeFox*.zip 
 
 task:
   name: "Recovery Build"
-  timeout_in: 120m
+  timeout_in: 120m  
   container:
-      image: ubuntu:20.04
+      image: registry.gitlab.com/sushrut1101/docker:latest
       cpu: 8
       memory: 32G
 
-  Build-Env-Setup_script:
-       - export DEBIAN_FRONTEND=noninteractive
-       - apt update
-       - apt install sudo
-       - df -h
-       - DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata
-       - ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
-       - apt-get install -y tzdata
-       - dpkg-reconfigure --frontend noninteractive tzdata
-       - sudo apt update -y && sudo apt install git aria2 curl wget rsync zip unzip lzma cpio ccache neofetch -y
-       - sudo apt install python2 -y
-       - sudo ln -sf /usr/bin/python2 /usr/bin/python
-       - git config --global user.name "Sushrut1101"
-       - git config --global user.email "guptasushrut@gmail.com"
-       - git clone https://github.com/akhilnarang/scripts.git ~/scripts
-       - cd ~/scripts
-       - sudo bash setup/android_build_env.sh
-       - cd ~
-  
-  Neofetch_script:
-       - neofetch
-  
-  Storage-Checker_script:
-      - df -h
-      - lsblk
-      - ls -l -a -h
-  
   Sync_script:
-      - echo "============================"
-      - echo "Syncing The Sources..."
-      - echo "============================"
-      - mkdir -p ~/work
-      - cd ~/work
-      - repo init --depth=1 -u $MANIFEST 
-      - repo sync -j16 --force-sync --no-tags --no-clone-bundle
-      - git clone $DT_LINK $DT_PATH
-      - echo "============================"
-      - echo "Syncing Complete!"
-      - echo "============================"
-  
-  Clone-OrangeFox-Theme_script:
-      - git clone https://gitlab.com/OrangeFox/misc/Theme.git ~/work/bootable/recovery/gui/theme
-  
+      - bash sync.sh
+
   Build_script:
-      - echo "============================"
-      - echo "Starting the Build..."
-      - echo "============================"
-      - cd ~/work
-      - export ALLOW_MISSING_DEPENDENCIES=true
-      - export LC_ALL="C"
-      - export FOX_USE_TWRP_RECOVERY_IMAGE_BUILDER=1
-      - $EXTRA_CMD
-      - export USE_CCACHE=1
-      - export CCACHE_EXEC=/usr/bin/ccache
-      - ccache -M 50G
-      - . build/envsetup.sh
-      - . $DT_PATH/vendorsetup.sh
-      - lunch omni_$DEVICE-eng
-      - mka -j16 $TARGET
-     
+      - bash build.sh
+
   Upload_script:
-      - echo "============================"
-      - echo "Uploading the Build..."
-      - echo "============================"
-      - cd ~/work
-      - cd out/target/product/"$DEVICE"
-      - ls -lh
-      - pwd
-      - chmod 777 *
-      - FILENAME=$(echo $OUTPUT)
-      - TIMEOUT=43200
-      - curl -T $FILENAME https://oshi.at/${FILENAME}/${TIMEOUT} | tee link.txt && echo " "
-      - echo " "
-      - echo "============================"
-      - echo "Build Uploaded!"
-      - echo "Please see the link Below-  "
-      - echo "----------------------------"
-      - cat link.txt && echo " "
-      - echo "============================"
+      - export TIMEOUT=43200 # Link timeout (in minutes)
+      - bash upload.sh
