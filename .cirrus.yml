@@ -10,12 +10,12 @@ env:
 
 task:
   name: "Recovery Build"
-  timeout_in: 240m  
+  timeout_in: 120m
   container:
       image: ubuntu:20.04
       cpu: 8
       memory: 32G
-  
+
   Build-Env-Setup_script:
        - export DEBIAN_FRONTEND=noninteractive
        - apt update
