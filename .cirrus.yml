@@ -3,7 +3,7 @@ env:
     FOX_BRANCH: fox_9.0
     SYNC_BRANCH: 9.0
     SYNC_PATH: $HOME/work # Full absolute path. Use "$HOME" instead of "~".
-    DT_LINK: https://github.com/PitchBlackRecoveryProject/android_device_xiaomi_dandelion-pbrp.git
+    DT_LINK: https://github.com/Sushrut1101/android_device_xiaomi_dandelion-pbrp.git
     DEVICE: dandelion
     OEM: xiaomi
     DT_PATH: device/$OEM/$DEVICE
