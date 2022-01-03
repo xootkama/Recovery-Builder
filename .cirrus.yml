@@ -3,7 +3,7 @@ env:
     FOX_BRANCH: fox_11.0
     SYNC_BRANCH: 11.0
     SYNC_PATH: $HOME/work # Full absolute path. Use "$HOME" instead of "~".
-    DT_LINK: https://github.com/X00TD-Development/android_device_samsung_m32 -b gg
+    DT_LINK: https://github.com/X00TD-Development/android_device_samsung_m32 -b fox
     DEVICE: m32
     OEM: samsung
     DT_PATH: device/$OEM/$DEVICE
