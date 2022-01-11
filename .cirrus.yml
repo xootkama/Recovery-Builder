@@ -3,9 +3,9 @@ env:
     FOX_BRANCH: fox_11.0
     SYNC_BRANCH: 11.0
     SYNC_PATH: $HOME/work # Full absolute path. Use "$HOME" instead of "~".
-    DT_LINK: https://github.com/X00TD-Development/android_device_samsung_m32 -b fox
-    DEVICE: m32
-    OEM: samsung
+    DT_LINK: https://github.com/TeamWin/android_device_oneplus_kebab -b android-11
+    DEVICE: kebab
+    OEM: oneplus
     DT_PATH: device/$OEM/$DEVICE
     TARGET: bootimage
     USE_CCACHE: 1
@@ -38,7 +38,7 @@ task:
       - bash common/sync.sh
   
   Clone-Device-Dependencies_script:
-      - git clone --depth=1 https://github.com/xootkama/kernel_samsung_m32 --single-branch --branch main ${SYNC_PATH}/kernel/samsung/m32
+      - git clone --depth=1 https://github.com/AOSPA/android_kernel_oneplus_sm8250 --single-branch --branch main ${SYNC_PATH}/kernel/oneplus/kebab
 
   Build_script:
       - bash common/build.sh
